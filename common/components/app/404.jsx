@@ -5,11 +5,10 @@ export default class NotFound extends React.Component {
   render() {
     const styles = {
       message: {
-        fontFamily: 'Roboto-Light',
         fontSize: '24px',
         textAlign: 'center',
         padding: '10%',
-        color: Colors.grey600
+        color: Colors.yellow800
       }
     }
 

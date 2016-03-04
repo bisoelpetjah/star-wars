@@ -12,7 +12,7 @@ export default class Header extends React.Component {
         lineHeight: '48px',
         paddingLeft: '16px',
         paddingRight: '16px',
-        backgroundColor: Colors.white
+        backgroundColor: Colors.grey900
       },
       appBarTitle: {
         lineHeight: '48px',
@@ -21,7 +21,7 @@ export default class Header extends React.Component {
       titleLink: {
         fontSize: '30px',
         lineHeight: '48px',
-        color: Colors.grey600,
+        color: Colors.yellow800,
         textDecoration: 'none'
       },
       alphaSpan: {

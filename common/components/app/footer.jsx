@@ -8,8 +8,8 @@ export default class Login extends React.Component {
         height: '50px',
         fontSize: '14px',
         lineHeight: '14px',
-        color: Colors.grey500,
-        backgroundColor: Colors.grey50
+        color: Colors.yellow700,
+        backgroundColor: Colors.grey800
       },
       footerContainer: {
         width: '85%',

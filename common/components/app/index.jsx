@@ -35,7 +35,8 @@ class App extends React.Component {
       container: {
         minHeight: '100vh',
         display: 'flex',
-        flexDirection: 'column'
+        flexDirection: 'column',
+        backgroundColor: Colors.grey700
       },
       progress: {
         height: '2px',
