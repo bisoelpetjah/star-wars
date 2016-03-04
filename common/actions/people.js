@@ -13,6 +13,7 @@ export function fetchPeopleList(url) {
       if (response.status == 200) {
         response.json().then(data => {
           dispatch(receivePeopleList(data.results, data.next))
+          if (!data.next && data.previous) dispatch(endPeopleList())
           dispatch(resolveFetch(response.status))
         })
       } else {
@@ -27,7 +28,8 @@ export const RECEIVE_PEOPLE_LIST = 'RECEIVE_PEOPLE_LIST'
 export function receivePeopleList(people, next) {
   return {
     type: RECEIVE_PEOPLE_LIST,
-    people
+    people,
+    next
   }
 }
 
