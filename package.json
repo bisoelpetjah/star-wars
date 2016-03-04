@@ -1,0 +1,38 @@
+{
+  "name": "star-wars",
+  "version": "1.0.0",
+  "description": "",
+  "scripts": {
+    "dev": "NODE_PATH=$NODE_PATH:./common node --harmony ./bin/www & webpack-dev-server --progress --color --config ./webpack.config.dev.js",
+    "build": "webpack --progress --color -p --config ./webpack.config.prod.js",
+    "start": "NODE_PATH=$NODE_PATH:./common forever start -c \"node --harmony\" ./bin/www",
+    "stop": "forever stop ./bin/www"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.13.3",
+    "history": "^1.17.0",
+    "isomorphic-fetch": "^2.2.0",
+    "material-ui": "^0.14.4",
+    "react": "^0.14.7",
+    "react-dom": "^0.14.7",
+    "react-redux": "^4.4.0",
+    "react-router": "^1.0.3",
+    "react-tap-event-plugin": "^0.2.2",
+    "redux": "^3.3.1",
+    "redux-thunk": "^1.0.3",
+    "rgx": "^0.2.1"
+  },
+  "devDependencies": {
+    "babel-core": "^6.5.1",
+    "babel-loader": "^6.2.2",
+    "babel-polyfill": "^6.5.0",
+    "babel-preset-es2015": "^6.5.0",
+    "babel-preset-react": "^6.5.0",
+    "babel-register": "^6.5.1",
+    "react-hot-loader": "^1.3.0",
+    "webpack": "^1.12.13",
+    "webpack-dev-server": "^1.14.1"
+  }
+}

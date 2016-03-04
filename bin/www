@@ -1,0 +1,14 @@
+#!/usr/bin/env node
+
+require('babel-register');
+require('babel-polyfill');
+require('isomorphic-fetch');
+
+var injectTapEventPlugin = require('react-tap-event-plugin');
+injectTapEventPlugin();
+
+var server = require('../server').default;
+
+const PORT = process.env.PORT || 3003;
+
+server.listen(PORT);
