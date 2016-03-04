@@ -2,6 +2,7 @@ import React from 'react'
 import Colors from 'material-ui/lib/styles/colors'
 
 export default class NotFound extends React.Component {
+
   render() {
     const styles = {
       message: {

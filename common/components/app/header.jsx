@@ -4,6 +4,7 @@ import Colors from 'material-ui/lib/styles/colors'
 import AppBar from 'material-ui/lib/app-bar'
 
 export default class Header extends React.Component {
+
   render() {
     const styles = {
       appBar: {
