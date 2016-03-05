@@ -23,6 +23,26 @@ export function fetchPeopleList(url) {
   }
 }
 
+export function fetchCurrentPerson(url) {
+  return dispatch => {
+    dispatch(requestFetch())
+
+    fetch(url, {
+      headers: api.requestHeaders,
+      method: 'GET'
+    }).then(response => {
+      if (response.status == 200) {
+        response.json().then(data => {
+          dispatch(receiveCurrentPerson(data))
+          dispatch(resolveFetch(response.status))
+        })
+      } else {
+        dispatch(resolveFetch(response.status))
+      }
+    })
+  }
+}
+
 export const RECEIVE_PEOPLE_LIST = 'RECEIVE_PEOPLE_LIST'
 
 export function receivePeopleList(people, next) {
@@ -43,4 +63,19 @@ export const RESET_PEOPLE_LIST = 'RESET_PEOPLE_LIST'
 
 export function resetPeopleList() {
   return {type: RESET_PEOPLE_LIST}
+}
+
+export const RECEIVE_CURRENT_PERSON = 'RECEIVE_CURRENT_PERSON'
+
+export function receiveCurrentPerson(person) {
+  return {
+    type: RECEIVE_CURRENT_PERSON,
+    person
+  }
+}
+
+export const RESET_CURRENT_PERSON = 'RESET_CURRENT_PERSON'
+
+export function resetCurrentPerson() {
+  return {type: RESET_CURRENT_PERSON}
 }

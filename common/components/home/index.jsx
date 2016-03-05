@@ -1,7 +1,8 @@
 import React from 'react'
 import Colors from 'material-ui/lib/styles/colors'
-import {connect} from 'react-redux'
+import {Grid, Cell} from 'rgx'
 import CircularProgress from 'material-ui/lib/circular-progress'
+import {connect} from 'react-redux'
 
 import Card from 'components/home/card'
 
@@ -20,7 +21,7 @@ class Home extends React.Component {
 
     window.addEventListener('scroll', this.handleScroll)
 
-    this.props.dispatch(fetchPeopleList(null))
+    if (!this.props.request.isFetching && !this.props.people.eol && this.props.people.list.length == 0) this.props.dispatch(fetchPeopleList(null))
   }
 
   componentWillUnmount() {
@@ -30,6 +31,7 @@ class Home extends React.Component {
   render() {
     const styles = {
       container: {
+        margin: '0 2%',
         padding: '10px 0'
       },
       progress: {
@@ -39,16 +41,22 @@ class Home extends React.Component {
     }
 
     return (
-      <div style={styles.container}>
-        {
-          this.props.people.list.map(person => {
-            return (
-              <Card key={person.url} person={person} />
-            )
-          })
-        }
-        {this.props.request.isFetching ? <CircularProgress size={0.6} color={Colors.yellow700} style={styles.progress} /> : ''}
-      </div>
+      <Grid>
+        <Cell min={50} />
+        <Cell max={1024}>
+          <div style={styles.container}>
+            {
+              this.props.people.list.map(person => {
+                return (
+                  <Card key={person.url} person={person} />
+                )
+              })
+            }
+            {this.props.request.isFetching ? <CircularProgress size={0.6} color={Colors.yellow700} style={styles.progress} /> : ''}
+          </div>
+        </Cell>
+        <Cell min={50} />
+      </Grid>
     )
   }
 
