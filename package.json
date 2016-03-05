@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "NODE_PATH=$NODE_PATH:./common node --harmony ./bin/www & webpack-dev-server --progress --color --config ./webpack.config.dev.js",
     "build": "webpack --progress --color -p --config ./webpack.config.prod.js",
-    "start": "NODE_PATH=$NODE_PATH:./common forever start -c \"node --harmony\" ./bin/www",
+    "start": "NODE_ENV=production NODE_PATH=$NODE_PATH:./common forever start -c \"node --harmony\" ./bin/www",
     "stop": "forever stop ./bin/www"
   },
   "author": "",
