@@ -40,6 +40,8 @@ app.use((req, res, next) => {
 
           <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 
+          <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
           <script type="application/javascript">
             window.__INITIAL_STATE__ = ${JSON.stringify(initialState)};
           </script>

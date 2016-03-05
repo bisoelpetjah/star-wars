@@ -1,6 +1,9 @@
 import api from '../../config/api'
+import Firebase from 'firebase'
 
 import {requestFetch, resolveFetch} from 'actions'
+
+const firebase = new Firebase(api.firebaseUrl)
 
 export function fetchPeopleList(url) {
   return dispatch => {
@@ -12,9 +15,11 @@ export function fetchPeopleList(url) {
     }).then(response => {
       if (response.status == 200) {
         response.json().then(data => {
-          dispatch(receivePeopleList(data.results, data.next))
-          if (!data.next && data.previous) dispatch(endPeopleList())
-          dispatch(resolveFetch(response.status))
+          retrieveLikeDislike(data.results, people => {
+            dispatch(receivePeopleList(people, data.next))
+            if (!data.next && data.previous) dispatch(endPeopleList())
+            dispatch(resolveFetch(response.status))
+          })
         })
       } else {
         dispatch(resolveFetch(response.status))
@@ -33,6 +38,9 @@ export function fetchCurrentPerson(url) {
     }).then(response => {
       if (response.status == 200) {
         response.json().then(data => {
+          let likeDislike = retrieveLikeDislike(data.url)
+          person.like = likeDislike.like ? likeDislike.like : 0
+          person.dislike = likeDislike.dislike ? likeDislike.dislike : 0
           dispatch(receiveCurrentPerson(data))
           dispatch(resolveFetch(response.status))
         })
@@ -40,6 +48,20 @@ export function fetchCurrentPerson(url) {
         dispatch(resolveFetch(response.status))
       }
     })
+  }
+}
+
+export function fetchLikePerson(url, likeCount) {
+  return dispatch => {
+    dispatch(likePerson(url))
+    saveLike(url, likeCount)
+  }
+}
+
+export function fetchDislikePerson(url, dislikeCount) {
+  return dispatch => {
+    dispatch(dislikePerson(url))
+    saveDislike(url, dislikeCount)
   }
 }
 
@@ -78,4 +100,52 @@ export const RESET_CURRENT_PERSON = 'RESET_CURRENT_PERSON'
 
 export function resetCurrentPerson() {
   return {type: RESET_CURRENT_PERSON}
+}
+
+export const LIKE_PERSON = 'LIKE_PERSON'
+
+export function likePerson(url) {
+  return {
+    type: LIKE_PERSON,
+    url
+  }
+}
+
+export const DISLIKE_PERSON = 'DISLIKE_PERSON'
+
+export function dislikePerson(url) {
+  return {
+    type: DISLIKE_PERSON,
+    url
+  }
+}
+
+function getIdFromUrl(url) {
+  let urlSplit = url.split('/')
+  return urlSplit[urlSplit.length - 2]
+}
+
+function saveLike(url, likeCount) {
+    firebase.child(`people/${getIdFromUrl(url)}/like`).set(likeCount + 1)
+}
+
+function saveDislike(url, dislikeCount) {
+    firebase.child(`people/${getIdFromUrl(url)}/dislike`).set(dislikeCount + 1)
+}
+
+function retrieveLikeDislike(people, callback) {
+  firebase.child('people').once('value', snapshot => {
+    let data = snapshot.val()
+    callback(people.map(person => {
+      if (!data) {
+        person.like = 0
+        person.dislike = 0
+      } else {
+        let likeDislike = data[getIdFromUrl(person.url)]
+        person.like = (likeDislike && likeDislike.like) ? likeDislike.like : 0
+        person.dislike = (likeDislike && likeDislike.dislike) ? likeDislike.dislike : 0
+      }
+      return person
+    }))
+  })
 }

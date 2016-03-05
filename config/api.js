@@ -3,5 +3,6 @@ export default {
   requestHeaders: new Headers({
     'Accept': 'application/json',
     'Content-Type': 'application/json'
-  })
+  }),
+  firebaseUrl: 'https://star-wars-sc.firebaseio.com'
 }
