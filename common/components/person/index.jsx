@@ -128,7 +128,7 @@ class Person extends React.Component {
   }
 
   handleDislikeClick() {
-    this.props.dispatch(fetchDislikePerson(this.props.people.currentPerson.url, this.props.people.currentPerson.like))
+    this.props.dispatch(fetchDislikePerson(this.props.people.currentPerson.url, this.props.people.currentPerson.dislike))
   }
 }
 
