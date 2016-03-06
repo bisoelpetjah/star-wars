@@ -8,26 +8,11 @@ import Footer from 'components/app/footer'
 import {setAccessToken, resetFetchStatus} from 'actions'
 
 class App extends React.Component {
-  constructor(props) {
-    super(props)
-
-    this.state = {isReady: false}
-  }
-
-  componentDidMount() {
-    this.setState({isReady: true})
-  }
 
   componentWillReceiveProps(nextProps) {
     if (this.props.location.pathname != nextProps.location.pathname) {
       this.props.dispatch(resetFetchStatus())
-
-      this.setState({isReady: false})
     }
-  }
-
-  componentDidUpdate() {
-    if (!this.state.isReady) this.setState({isReady: true})
   }
 
   render() {
@@ -49,7 +34,7 @@ class App extends React.Component {
       <div style={styles.container}>
         <Header />
         <main style={styles.main}>
-          {this.state.isReady ? this.props.children : ''}
+          {this.props.children}
         </main>
         <Footer />
       </div>
