@@ -14,9 +14,6 @@ export default class Detail extends React.Component {
       },
       text: {
         color: Colors.yellow800
-      },
-      buttonContainer: {
-        textAlign: 'right'
       }
     }
 

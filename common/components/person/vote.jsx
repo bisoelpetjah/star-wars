@@ -25,6 +25,9 @@ export default class Vote extends React.Component {
       },
       text: {
         color: Colors.yellow800
+      },
+      buttonContainer: {
+        textAlign: 'right'
       }
     }
 
