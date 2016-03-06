@@ -20,6 +20,10 @@ class Person extends React.Component {
     }
   }
 
+  componentWillReceiveProps(nextProps) {
+    if (!this.props.people.currentPerson && nextProps.people.currentPerson) document.title = `${nextProps.people.currentPerson.name} | Star Wars Portal`
+  }
+
   componentWillUnmount() {
     this.props.dispatch(resetCurrentPerson())
   }
