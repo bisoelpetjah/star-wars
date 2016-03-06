@@ -4,6 +4,7 @@ import {Grid, Cell} from 'rgx'
 import CircularProgress from 'material-ui/lib/circular-progress'
 import {connect} from 'react-redux'
 
+import Error from 'components/app/404'
 import Detail from 'components/person/detail'
 import Vote from 'components/person/vote'
 
@@ -43,6 +44,8 @@ class Person extends React.Component {
         transform: 'translateX(-50%)'
       }
     }
+
+    if (this.props.request.status == 404) return (<Error />)
 
     return (
       <Grid>

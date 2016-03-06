@@ -23,6 +23,8 @@ export function fetchPeopleList(url) {
     }).then(people => {
       dispatch(setPeopleList(people))
       dispatch(resolveFetch(status))
+    }).catch(error => {
+      dispatch(resolveFetch(404))
     })
   }
 }
@@ -43,6 +45,8 @@ export function fetchCurrentPerson(url) {
     }).then(people => {
       dispatch(setCurrentPerson(people[0]))
       dispatch(resolveFetch(status))
+    }).catch(error => {
+      dispatch(resolveFetch(404))
     })
   }
 }
