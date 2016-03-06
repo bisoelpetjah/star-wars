@@ -7,16 +7,20 @@ import {connect} from 'react-redux'
 import Detail from 'components/person/detail'
 import Vote from 'components/person/vote'
 
-import {fetchCurrentPerson, receiveCurrentPerson, resetCurrentPerson} from 'actions'
+import {fetchCurrentPerson, setCurrentPerson, resetCurrentPerson} from 'actions'
 
 class Person extends React.Component {
+
+  static getInitialData(dispatch, params) {
+    return dispatch(fetchCurrentPerson(decodeURIComponent(params.id)))
+  }
 
   componentDidMount() {
     let currentPerson = this.props.people.list.find(person => person.url == decodeURIComponent(this.props.params.id))
     if (currentPerson) {
-      this.props.dispatch(receiveCurrentPerson(currentPerson))
+      this.props.dispatch(setCurrentPerson(currentPerson))
     } else {
-      this.props.dispatch(fetchCurrentPerson(decodeURIComponent(this.props.params.id)))
+      this.constructor.getInitialData(this.props.dispatch, this.props.params)
     }
   }
 

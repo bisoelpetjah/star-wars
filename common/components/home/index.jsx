@@ -10,6 +10,10 @@ import {fetchPeopleList} from 'actions'
 
 class Home extends React.Component {
 
+  static getInitialData(dispatch, params) {
+    return dispatch(fetchPeopleList(null))
+  }
+
   constructor(props) {
     super(props)
 
@@ -21,7 +25,7 @@ class Home extends React.Component {
 
     window.addEventListener('scroll', this.handleScroll)
 
-    if (!this.props.request.isFetching && !this.props.people.eol && this.props.people.list.length == 0) this.props.dispatch(fetchPeopleList(null))
+    if (!this.props.request.isFetching && !this.props.people.eol && this.props.people.list.length == 0) this.constructor.getInitialData(this.props.dispatch)
   }
 
   componentWillUnmount() {

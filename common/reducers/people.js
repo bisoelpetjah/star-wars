@@ -1,4 +1,4 @@
-import {RECEIVE_PEOPLE_LIST, END_PEOPLE_LIST, RESET_PEOPLE_LIST, RECEIVE_CURRENT_PERSON, RESET_CURRENT_PERSON, LIKE_PERSON, DISLIKE_PERSON} from 'actions'
+import {SET_PEOPLE_LIST, SET_PEOPLE_LIST_NEXT, END_PEOPLE_LIST, RESET_PEOPLE_LIST, SET_CURRENT_PERSON, RESET_CURRENT_PERSON, LIKE_PERSON, DISLIKE_PERSON} from 'actions'
 
 const initialState = {
   list: [],
@@ -9,16 +9,15 @@ const initialState = {
 
 export default function peopleReducer(state = initialState, action) {
   switch (action.type) {
-    case RECEIVE_PEOPLE_LIST:
-      return Object.assign({}, state, {
-        list: state.list.concat(action.people),
-        next: action.next
-      })
+    case SET_PEOPLE_LIST:
+      return Object.assign({}, state, {list: state.list.concat(action.people)})
+    case SET_PEOPLE_LIST_NEXT:
+      return Object.assign({}, state, {next: action.next})
     case END_PEOPLE_LIST:
       return Object.assign({}, state, {eol: true})
     case RESET_PEOPLE_LIST:
       return Object.assign({}, initialState)
-    case RECEIVE_CURRENT_PERSON:
+    case SET_CURRENT_PERSON:
       return Object.assign({}, state, {currentPerson: action.person})
     case RESET_CURRENT_PERSON:
       return Object.assign({}, state, {currentPerson: null})

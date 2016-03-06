@@ -9,21 +9,20 @@ export function fetchPeopleList(url) {
   return dispatch => {
     dispatch(requestFetch())
 
-    fetch(url ? url :`${api.baseUrl}/people/`, {
+    let status = 0
+    return fetch(url ? url :`${api.baseUrl}/people/`, {
       headers: api.requestHeaders,
       method: 'GET'
     }).then(response => {
-      if (response.status == 200) {
-        response.json().then(data => {
-          retrieveLikeDislike(data.results, people => {
-            dispatch(receivePeopleList(people, data.next))
-            if (!data.next && data.previous) dispatch(endPeopleList())
-            dispatch(resolveFetch(response.status))
-          })
-        })
-      } else {
-        dispatch(resolveFetch(response.status))
-      }
+      status = response.status
+      return response.json()
+    }).then(data => {
+      dispatch(setPeopleListNext(data.next))
+      if (!data.next && data.previous) dispatch(endPeopleList())
+      return retrieveLikeDislike(data.results)
+    }).then(people => {
+      dispatch(setPeopleList(people))
+      dispatch(resolveFetch(status))
     })
   }
 }
@@ -32,22 +31,18 @@ export function fetchCurrentPerson(url) {
   return dispatch => {
     dispatch(requestFetch())
 
-    fetch(url, {
+    let status = 0
+    return fetch(url, {
       headers: api.requestHeaders,
       method: 'GET'
     }).then(response => {
-      if (response.status == 200) {
-        response.json().then(data => {
-          retrieveLikeDislike([data], people => {
-            data.like = people[0].like ? people[0].like : 0
-            data.dislike = people[0].dislike ? people[0].dislike : 0
-            dispatch(receiveCurrentPerson(data))
-            dispatch(resolveFetch(response.status))
-          })
-        })
-      } else {
-        dispatch(resolveFetch(response.status))
-      }
+      status = response.status
+      return response.json()
+    }).then(data => {
+      return retrieveLikeDislike([data])
+    }).then(people => {
+      dispatch(setCurrentPerson(people[0]))
+      dispatch(resolveFetch(status))
     })
   }
 }
@@ -66,12 +61,20 @@ export function fetchDislikePerson(url, dislikeCount) {
   }
 }
 
-export const RECEIVE_PEOPLE_LIST = 'RECEIVE_PEOPLE_LIST'
+export const SET_PEOPLE_LIST = 'SET_PEOPLE_LIST'
 
-export function receivePeopleList(people, next) {
+export function setPeopleList(people) {
   return {
-    type: RECEIVE_PEOPLE_LIST,
-    people,
+    type: SET_PEOPLE_LIST,
+    people
+  }
+}
+
+export const SET_PEOPLE_LIST_NEXT = 'SET_PEOPLE_LIST_NEXT'
+
+export function setPeopleListNext(next) {
+  return {
+    type: SET_PEOPLE_LIST_NEXT,
     next
   }
 }
@@ -88,11 +91,11 @@ export function resetPeopleList() {
   return {type: RESET_PEOPLE_LIST}
 }
 
-export const RECEIVE_CURRENT_PERSON = 'RECEIVE_CURRENT_PERSON'
+export const SET_CURRENT_PERSON = 'SET_CURRENT_PERSON'
 
-export function receiveCurrentPerson(person) {
+export function setCurrentPerson(person) {
   return {
-    type: RECEIVE_CURRENT_PERSON,
+    type: SET_CURRENT_PERSON,
     person
   }
 }
@@ -134,19 +137,21 @@ function saveDislike(url, dislikeCount) {
     firebase.child(`people/${getIdFromUrl(url)}/dislike`).set(dislikeCount + 1)
 }
 
-function retrieveLikeDislike(people, callback) {
-  firebase.child('people').once('value', snapshot => {
-    let data = snapshot.val()
-    callback(people.map(person => {
-      if (!data) {
-        person.like = 0
-        person.dislike = 0
-      } else {
-        let likeDislike = data[getIdFromUrl(person.url)]
-        person.like = (likeDislike && likeDislike.like) ? likeDislike.like : 0
-        person.dislike = (likeDislike && likeDislike.dislike) ? likeDislike.dislike : 0
-      }
-      return person
-    }))
+function retrieveLikeDislike(people) {
+  return new Promise((resolve, reject) => {
+    firebase.child('people').once('value', snapshot => {
+      let data = snapshot.val()
+      resolve(people.map(person => {
+        if (!data) {
+          person.like = 0
+          person.dislike = 0
+        } else {
+          let likeDislike = data[getIdFromUrl(person.url)]
+          person.like = (likeDislike && likeDislike.like) ? likeDislike.like : 0
+          person.dislike = (likeDislike && likeDislike.dislike) ? likeDislike.dislike : 0
+        }
+        return person
+      }))
+    })
   })
 }
