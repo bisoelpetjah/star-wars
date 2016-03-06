@@ -38,9 +38,9 @@ export function fetchCurrentPerson(url) {
     }).then(response => {
       if (response.status == 200) {
         response.json().then(data => {
-          let likeDislike = retrieveLikeDislike(data.url)
-          person.like = likeDislike.like ? likeDislike.like : 0
-          person.dislike = likeDislike.dislike ? likeDislike.dislike : 0
+          let likeDislike = retrieveLikeDislike([data.url])
+          data.like = likeDislike[0].like ? likeDislike[0].like : 0
+          data.dislike = likeDislike[0].dislike ? likeDislike[0].dislike : 0
           dispatch(receiveCurrentPerson(data))
           dispatch(resolveFetch(response.status))
         })
