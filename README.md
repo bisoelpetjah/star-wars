@@ -2,7 +2,7 @@
 
 This is a project that shows information of characters in the Star Wars universe. Users can also vote for their favorite Star Wars characters. The data is pulled from [SWAPI].
 
-The project is built with [React] with help from [Redux]. The project is written in JavaScript with ES6 syntax. This is an isomorphic single page web application. The website is hosted in a [Ramnode] VPS instance under the domain of [Sokcoba.in]. The voting system is using the backend service provided by [Firebase].
+The project is built with [React] with help from [Redux]. The project is written in JavaScript with ES6 syntax. This is an isomorphic and mobile friendly single page web application. The website is hosted in a [Ramnode] VPS instance under the domain of [Sokcoba.in]. The voting system is using the backend service provided by [Firebase].
 
 This project is developed by [Irvan Adhitya].
 
