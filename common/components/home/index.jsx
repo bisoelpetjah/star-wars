@@ -61,7 +61,7 @@ class Home extends React.Component {
   }
 
   handleScroll() {
-    if (!this.props.request.isFetching && !this.props.people.eol && (window.innerHeight + window.scrollY + 10) >= document.body.offsetHeight) this.props.dispatch(fetchPeopleList(this.props.people.next))
+    if (!this.props.request.isFetching && !this.props.people.eol && (window.innerHeight + window.scrollY) >= document.body.offsetHeight - 200) this.props.dispatch(fetchPeopleList(this.props.people.next))
   }
 }
 
