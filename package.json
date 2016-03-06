@@ -23,7 +23,8 @@
     "react-tap-event-plugin": "^0.2.2",
     "redux": "^3.3.1",
     "redux-thunk": "^1.0.3",
-    "rgx": "^0.2.1"
+    "rgx": "^0.2.1",
+    "serve-favicon": "^2.3.0"
   },
   "devDependencies": {
     "babel-core": "^6.5.1",
